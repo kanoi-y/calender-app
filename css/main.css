@@ -1,1 +1,60 @@
-/* No CSS *//*# sourceMappingURL=main.css.map */
+body {
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid #eee;
+}
+
+table thead,
+table tfoot {
+  background: #eee;
+}
+
+table tbody td:first-child {
+  color: red;
+}
+
+table tbody td:last-child {
+  color: blue;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: center;
+}
+
+tfoot {
+  font-weight: bold;
+}
+
+td.disabled {
+  opacity: 0.3;
+}
+
+td.today {
+  font-weight: bold;
+}
+
+#prev,
+#next,
+#today {
+  cursor: pointer;
+  -ms-user-select: none;
+  /*IE / Edge*/
+  -moz-user-select: none;
+  /*Firefox*/
+  -webkit-user-select: none;
+  /*Safari*/
+  user-select: none;
+}
+
+#prev:hover,
+#next:hover,
+#today:hover {
+  opacity: 0.7;
+}
+/*# sourceMappingURL=main.css.map */
