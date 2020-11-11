@@ -27,7 +27,7 @@ td {
 }
 
 tfoot {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 td {
@@ -42,12 +42,12 @@ td {
 #prev,
 #next,
 #today {
-    cursor: pointer;
-    -ms-user-select: none;      /*IE / Edge*/
-    -moz-user-select: none;     /*Firefox*/
-    -webkit-user-select: none;  /*Safari*/
-    user-select: none;
-    &:hover {
-        opacity: 0.7;
-    }
+  cursor: pointer;
+  -ms-user-select: none; /*IE / Edge*/
+  -moz-user-select: none; /*Firefox*/
+  -webkit-user-select: none; /*Safari*/
+  user-select: none;
+  &:hover {
+    opacity: 0.7;
+  }
 }
