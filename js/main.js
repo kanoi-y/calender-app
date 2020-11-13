@@ -20,57 +20,85 @@
     return new Date(year, month, 0).getDate();
   };
 
-  //   日数からhtmlを生成して、tbodyに入れる関数
-  const getCalenderBody = (days, week) => {};
+  // 引数にいれた都市と月から、その月のカレンダーを表示する関数
+  const getCalenderHtml = (year, month) => {
+    //   今月の最終日
+    const thisLastDay = getLastDay(year, month + 1);
 
-  //   今月の最終日
-  const thisMonthDays = getLastDay(year, month + 1);
-  const week = Math.ceil(thisMonthDays / 7);
+    // 先月の最終日
+    const beforeLastDay =
+      month === 0 ? getLastDay(year - 1, 12) : getLastDay(year, month);
 
-  // 今月のカレンダーを表示
+    //  一日の曜日
+    const weekDay = new Date(year, month, 1).getDay();
 
-  for (let i = 0; i < week; i++) {
-    calenderHtml.push(`<tr>`);
+    // 週の数
+    const week = Math.ceil((thisLastDay + weekDay) / 7);
 
-    for (let j = 1; j < 8; j++) {
-      const calenderNumber =
-        j + 7 * i > thisMonthDays ? j + 7 * i - thisMonthDays : j + 7 * i;
+    // 要素の初期化
+    calenderHtml = [];
 
-      if (j + 7 * i > thisMonthDays) {
-        calenderHtml.push(`<td class="disabled">${calenderNumber}</td>`);
-      } else {
-        calenderHtml.push(`<td>${calenderNumber}</td>`);
+    // 今月のカレンダーを表示
+    for (let i = 0; i < week; i++) {
+      calenderHtml.push(`<tr>`);
+
+      for (let j = 1; j < 8; j++) {
+        const calenderDay = j + 7 * i;
+        if (calenderDay < weekDay + 1) {
+          calenderHtml.push(
+            `<td class="disabled">${beforeLastDay - (weekDay - j)}</td>`
+          );
+        } else if (calenderDay > thisLastDay + weekDay) {
+          calenderHtml.push(
+            `<td class="disabled">${calenderDay - thisLastDay - weekDay}</td>`
+          );
+        } else {
+          if (calenderDay === weekDay + day) {
+            calenderHtml.push(`<td class="today">${calenderDay - weekDay}</td>`);
+          } else {
+            calenderHtml.push(`<td>${calenderDay - weekDay}</td>`);
+          }
+        }
       }
+      calenderHtml.push(`</tr>`);
     }
-    calenderHtml.push(`</tr>`);
-  }
-  body.innerHTML = calenderHtml.join("");
-
-  //  カレンダーのタイトルを設定
-  title.textContent = `${year}/${month + 1}`;
-
-  const nextMove = () => {
-
-    if (pageMonth + 1 === 12) {
-     pageMonth = 0;
-     pageYear++;
-    } else {
-     pageMonth = pageMonth + 1;
-    }
-    title.textContent = `${pageYear}/${pageMonth + 1}`;
+    body.innerHTML = calenderHtml.join("");
+    //  カレンダーのタイトルを設定
+    title.textContent = `${year}/${month + 1}`;
   };
 
+  // 関数を実行
+  getCalenderHtml(year, month);
+
+  // nextをclickした時の処理
+  const nextMove = () => {
+    if (pageMonth + 1 === 12) {
+      pageMonth = 0;
+      pageYear++;
+    } else {
+      pageMonth++;
+    }
+    getCalenderHtml(pageYear, pageMonth);
+  };
+
+  // prevをclickした時の処理
   const prevMove = () => {
     if (pageMonth === 0) {
       pageMonth = 11;
       pageYear--;
-     } else {
+    } else {
       pageMonth = pageMonth - 1;
-     }
-     title.textContent = `${pageYear}/${pageMonth + 1}`;
+    }
+    getCalenderHtml(pageYear, pageMonth);
+  };
+
+  // todayをclickした時の処理
+  const todayMove = () => {
+    getCalenderHtml(year, month);
   };
 
   // イベント設定
-  next.addEventListener('click', nextMove);
-  prev.addEventListener('click', prevMove);
+  next.addEventListener("click", nextMove);
+  prev.addEventListener("click", prevMove);
+  today.addEventListener("click", todayMove);
 }

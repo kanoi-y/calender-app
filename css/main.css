@@ -14,7 +14,7 @@ table tfoot {
 }
 
 table tbody td:first-child {
-  color: red;
+  color: blue;
 }
 
 table tbody td:last-child {
