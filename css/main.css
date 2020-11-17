@@ -37,6 +37,7 @@ td.disabled {
 
 td.today {
   font-weight: bold;
+  background-color: #eb6868;
 }
 
 #prev,

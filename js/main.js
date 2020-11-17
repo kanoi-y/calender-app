@@ -5,15 +5,16 @@
   const next = document.getElementById("next");
   const today = document.getElementById("today");
   const body = document.getElementById("calender-body");
+  const oneWeek = document.querySelectorAll("#oneWeek th");
 
   const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const day = now.getDate();
+  const realYear = now.getFullYear();
+  const realMonth = now.getMonth();
+  const realDay = now.getDate();
 
   let calenderHtml = [];
-  let pageYear = year;
-  let pageMonth = month;
+  let pageYear = realYear;
+  let pageMonth = realMonth;
 
   //月の最終日を求める関数
   const getLastDay = (year, month) => {
@@ -46,17 +47,33 @@
         const calenderDay = j + 7 * i;
         if (calenderDay < weekDay + 1) {
           calenderHtml.push(
-            `<td class="disabled">${beforeLastDay - (weekDay - j)}</td>`
+            `<td class="disabled" data-date="${
+              beforeLastDay - (weekDay - j)
+            }">${beforeLastDay - (weekDay - j)}</td>`
           );
         } else if (calenderDay > thisLastDay + weekDay) {
           calenderHtml.push(
-            `<td class="disabled">${calenderDay - thisLastDay - weekDay}</td>`
+            `<td class="disabled" data-date="${
+              calenderDay - thisLastDay - weekDay
+            }">${calenderDay - thisLastDay - weekDay}</td>`
           );
         } else {
-          if (calenderDay === weekDay + day) {
-            calenderHtml.push(`<td class="today">${calenderDay - weekDay}</td>`);
+          if (
+            calenderDay === weekDay + realDay &&
+            year === realYear &&
+            month === realMonth
+          ) {
+            calenderHtml.push(
+              `<td class="today calender_td" data-date="${
+                calenderDay - weekDay
+              }">${calenderDay - weekDay}</td>`
+            );
           } else {
-            calenderHtml.push(`<td>${calenderDay - weekDay}</td>`);
+            calenderHtml.push(
+              `<td class="calender_td" data-date="${calenderDay - weekDay}">${
+                calenderDay - weekDay
+              }</td>`
+            );
           }
         }
       }
@@ -68,7 +85,7 @@
   };
 
   // 関数を実行
-  getCalenderHtml(year, month);
+  getCalenderHtml(realYear, realMonth);
 
   // nextをclickした時の処理
   const nextMove = () => {
@@ -94,11 +111,18 @@
 
   // todayをclickした時の処理
   const todayMove = () => {
-    getCalenderHtml(year, month);
+    getCalenderHtml(realYear, realMonth);
+  };
+
+  const dateEvent = (e) => {
+    if (e.target.classList.contains("calender_td")) {
+      alert("クリックした日付は" + e.target.dataset.date + "です");
+    }
   };
 
   // イベント設定
   next.addEventListener("click", nextMove);
   prev.addEventListener("click", prevMove);
   today.addEventListener("click", todayMove);
+  document.addEventListener("click", dateEvent);
 }
